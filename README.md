@@ -1,4 +1,4 @@
-This a repo with python computer vision samples
+This is a repo with python computer vision samples
 
 Using:
 Numpy
