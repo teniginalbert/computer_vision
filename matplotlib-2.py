@@ -10,7 +10,7 @@ Created on Mon Jul 20 14:39:59 2020
 from PIL import Image
 from pylab import *
 
-im = array(Image.open('/home/alberttenigin/Pictures/3.jpg').\
+im = array(Image.open('/home/alberttenigin/Pictures/2.jpg').\
            convert('L'))
 figure()
 
@@ -21,5 +21,7 @@ gray()
 #iso
 
 contour(im, origin='image')
+fig = matplotlib.pyplot.gcf()
+fig.set_size_inches(10.5, 16.5)
 axis('equal')
 axis('off')
