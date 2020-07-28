@@ -8,6 +8,7 @@ Created on Sun Jul 26 23:00:59 2020
 
 import os, sys, sift
 from numpy import *
+import pickle
 
 sys.path.append('/home/alberttenigin/Downloads/libsvm-3.24/python')
 from svmutil import *
@@ -53,7 +54,7 @@ for i, c in enumerate(classnames):
     transl[c], transl[i] = i, c
     
 prob = svm_problem(convert_labels(labels, transl), features)
-param = svm_parameter('-t 2')
+param = svm_parameter('-t 0')
 
 m = svm_train(prob, param)
 
@@ -64,5 +65,7 @@ res = convert_labels(res, transl)
 
 accuracy = sum(1.0 * (res == test_labels)) / len(test_labels)
 print('Accuracy is: ', accuracy)
-print('Classnames \n', classnames)
-print('Test features are: \n', test_features)
+#print('Classnames are :', classnames)
+
+model_filename = '/home/alberttenigin/projects/cv/classifiers/model_svm_gestures.sav'
+pickle.dump(m, open(model_filename, 'wb'))

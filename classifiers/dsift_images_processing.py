@@ -65,25 +65,25 @@ for i in range(100,436):
 
 for filename in imlist_a:
     featfile = filename[:-3] + 'dsift'
-    dsift.process_image_dsift(filename, featfile, 10, 5, resize=(50, 50))
+    dsift.process_image_dsift(filename, featfile, 2, 1, resize=(50, 50))
 
 for filename in imlist_b:
     featfile = filename[:-3] + 'dsift'
-    dsift.process_image_dsift(filename, featfile, 10, 5, resize=(50, 50))
+    dsift.process_image_dsift(filename, featfile, 2, 1, resize=(50, 50))
 
 for filename in imlist_c:
     featfile = filename[:-3] + 'dsift'
-    dsift.process_image_dsift(filename, featfile, 10, 5, resize=(50, 50))
+    dsift.process_image_dsift(filename, featfile, 2, 1, resize=(50, 50))
 
 for filename in imlist_f:
     featfile = filename[:-3] + 'dsift'
-    dsift.process_image_dsift(filename, featfile, 10, 5, resize=(50, 50))
+    dsift.process_image_dsift(filename, featfile, 2, 1, resize=(50, 50))
 
 for filename in imlist_p:
     featfile = filename[:-3] + 'dsift'
-    dsift.process_image_dsift(filename, featfile, 10, 5, resize=(50, 50))
+    dsift.process_image_dsift(filename, featfile, 2, 1, resize=(50, 50))
 
 for filename in imlist_v:
     featfile = filename[:-3] + 'dsift'
-    dsift.process_image_dsift(filename, featfile, 10, 5, resize=(50, 50))
+    dsift.process_image_dsift(filename, featfile, 2, 1, resize=(50, 50))
     
