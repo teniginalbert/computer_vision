@@ -40,11 +40,11 @@ def read_gesture_features_labels(path):
 test_path = '/home/alberttenigin/projects/cv/classifiers/gestures_test/'
 train_path ='/home/alberttenigin/projects/cv/classifiers/gestures_training/'
 
-features, labels = read_gesture_features_labels(train_path)
+#features, labels = read_gesture_features_labels(train_path)
 
 test_features, test_labels = read_gesture_features_labels(test_path)
 
-classnames = unique(labels)
+classnames = unique(test_labels)
 #features = map(list, features)
 #test_features = map(list, test_features)
 
@@ -53,7 +53,7 @@ transl = {}
 for i, c in enumerate(classnames):
     transl[c], transl[i] = i, c
     
-prob = svm_problem(convert_labels(labels, transl), features)
+prob = svm_problem(convert_labels(test_labels, transl), test_features)
 param = svm_parameter('-t 0')
 
 m = svm_train(prob, param)
@@ -65,7 +65,6 @@ res = convert_labels(res, transl)
 
 accuracy = sum(1.0 * (res == test_labels)) / len(test_labels)
 print('Accuracy is: ', accuracy)
-#print('Classnames are :', classnames)
 
-model_filename = '/home/alberttenigin/projects/cv/classifiers/model_svm_gestures.sav'
-pickle.dump(m, open(model_filename, 'wb'))
+#model_filename = '/home/alberttenigin/projects/cv/classifiers/model_svm_gestures.sav'
+#pickle.dump(m, open(model_filename, 'wb'))
