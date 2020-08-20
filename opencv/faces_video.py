@@ -13,7 +13,6 @@ sys.path.append('/usr/local/lib64/python3.8/site-packages')
 
 import cv2
 import numpy as np
-from numpy import *
 
 base_dir = os.path.dirname(__file__)
 prototxt_path = os.path.join(base_dir + '/model_data/deploy.prototxt')
@@ -29,8 +28,6 @@ def draw_flow(image, flow, step=16):
     model.setInput(blob)
     detections = model.forward()
     
-
-
            # Create frame around face
     for i in range(0, detections.shape[2]):
         box = detections[0, 0, i, 3:7] * np.array([w, h, w, h])
@@ -39,7 +36,7 @@ def draw_flow(image, flow, step=16):
         confidence = detections[0, 0, i, 2]
       
         # If confidence > 0.5, show box around face
-        if (confidence > 0.8):
+        if (confidence > 0.5):
             cv2.rectangle(vis, (startX, startY), (endX, endY), (0, 0, 255), 2)
      
     return vis
