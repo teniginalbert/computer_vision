@@ -33,21 +33,21 @@ def draw_flow(im, flow, step=16):
     return vis
 
 
-#cap = cv2.VideoCapture('0')
-cap = cv2.VideoCapture('/home/alberttenigin/projects/cv/opencv/sample_5.avi')
-#cap.open(0)
+cap = cv2.VideoCapture('2')
+#cap = cv2.VideoCapture('/home/alberttenigin/projects/cv/opencv/sample_5.avi')
+cap.open(2)
 if not (cap.isOpened()):
     print('Could not open video device')
 
 else:
     while(True):
         ret, im = cap.read()
-        gray = cv2.cvtColor(im, cv2.COLOR_BGR2GRAY)
+        #gray = cv2.cvtColor(im, cv2.COLOR_BGR2GRAY)
 
-        prev_gray = gray                   
-        flow = cv2.calcOpticalFlowFarneback(prev_gray, gray, None, 0.5, 3, 15, 3, 5, 1.2, 0)
+        #prev_gray = gray                   
+        #flow = cv2.calcOpticalFlowFarneback(prev_gray, gray, None, 0.5, 3, 15, 3, 5, 1.2, 0)
 
-        cv2.imshow('Optical flow', draw_flow(gray, flow))
+        cv2.imshow('Optical flow', im)
     
         if cv2.waitKey(10)== 27:
             break

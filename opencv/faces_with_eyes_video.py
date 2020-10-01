@@ -13,6 +13,7 @@ import sys
 sys.path.append('/usr/local/lib64/python3.8/site-packages')
 
 import cv2
+import imutils
 #import numpy as np
 #from numpy import *
 
@@ -37,16 +38,19 @@ def draw_flow(image):
     return image
 
 
-#cap = cv2.VideoCapture('0')
-cap = cv2.VideoCapture('/home/alberttenigin/projects/cv/opencv/sample_cv_2.mp4')
-#cap.open(0)
+cap = cv2.VideoCapture('2')
+#cap = cv2.VideoCapture('/home/alberttenigin/projects/cv/opencv/sample_cv_1.mp4')
+#cap = cv2.VideoCapture('/home/alberttenigin/projects/cv/opencv/blinks_no_eyeglasses.mp4')
+cap.open(2)
 if not (cap.isOpened()):
     print('Could not open video device')
 
 else:
     while(True):
         ret, im = cap.read()
-
+    
+       # im = imutils.rotate(im, -90)
+        im = imutils.resize(im, width=500)
         cv2.imshow('Face detection (RT)', draw_flow(im))
     
         if cv2.waitKey(10)== 27:
