@@ -12,9 +12,36 @@ from imutils.video import VideoStream
 from imutils import face_utils
 import argparse
 import imutils
-import time
 import dlib
 import cv2
+import threading
+from time import time
+
+# class Stack:
+#      def __init__(self):
+#          self.items = []
+
+#      def isEmpty(self):
+#          return self.items == []
+
+#      def push(self, item):
+#          self.items.append(item)
+
+#      def pop(self):
+#          return self.items.pop(0)
+
+#      def peek(self):
+#          return self.items[len(self.items)-1]
+
+#      def size(self):
+#          return len(self.items)
+     
+#      def append(self, item):
+#          self.push(item)
+#          self.pop()
+     
+def printit(num):
+  print('The number of blinks: ', num)
 
 def eye_aspect_ratio(eye):
 	A = dist.euclidean(eye[1], eye[5])
@@ -34,12 +61,16 @@ ap.add_argument("-v", "--video", type=str, default='/home/alberttenigin/projects
 	help="path to input video file")
 args = vars(ap.parse_args())
  
+INITIAL = time()
+TIMEST = time()
 
-EYE_AR_THRESHOLD = 0.3
-EYE_AR_CONSEC_FRAMES = 2
+EYE_AR_THRESHOLD = 0.2
+EYE_AR_CONSEC_FRAMES = 3
 
 COUNTER = 0
 TOTAL = 0
+TOTALS = []
+LMB = 0
 
 detector = dlib.get_frontal_face_detector()
 predictor = dlib.shape_predictor(args["shape_predictor"])
@@ -47,12 +78,14 @@ predictor = dlib.shape_predictor(args["shape_predictor"])
 (lStart, lEnd) = face_utils.FACIAL_LANDMARKS_IDXS["left_eye"]
 (rStart, rEnd) = face_utils.FACIAL_LANDMARKS_IDXS["right_eye"]
 
-vs = FileVideoStream(args['video']).start()
+#vs = FileVideoStream(args['video'])
 #fileStream = True
 vs = VideoStream(src=2).start()
-#vs = VideoStream(usePiCamera=True).start()
+#vs = VideoStream(usePiCamera=True)
+#vs.start()
 fileStream = False
-time.sleep(1.0)
+#time.sleep(1.0)
+#threading.Timer(1.0, printit, TOTAL).start()
 
 while True:
     if fileStream and not vs.more():
@@ -77,23 +110,30 @@ while True:
 
         ear = (leftEAR + rightEAR) / 2.0
 
-        leftEyeHull = cv2.convexHull(leftEye)
-        rightEyeHull = cv2.convexHull(rightEye)
-        cv2.drawContours(frame, [leftEyeHull], -1, (0, 255, 0), 1)
-        cv2.drawContours(frame, [rightEyeHull], -1, (0, 255, 0), 1)
+        #leftEyeHull = cv2.convexHull(leftEye)
+        #rightEyeHull = cv2.convexHull(rightEye)
+        #cv2.drawContours(frame, [leftEyeHull], -1, (0, 255, 0), 1)
+        #cv2.drawContours(frame, [rightEyeHull], -1, (0, 255, 0), 1)
 
         if ear < EYE_AR_THRESHOLD:
             COUNTER += 1
         else:
-            if COUNTER >= EYE_AR_CONSEC_FRAMES:
+            if COUNTER >= EYE_AR_CONSEC_FRAMES:                
                 TOTAL += 1
-
+            
             COUNTER = 0
+        
+        if time() > TIMEST + 60:
+            TIMEST = time()
+            LMT = TOTAL
+            print('For the last minute there were made ', TOTAL, ' blinks, time: ', TIMEST)
+            TOTALS.append(TOTAL)
+            TOTAL = 0
 
-        cv2.putText(frame, "Blinks: {}".format(TOTAL), (10, 20),
+        cv2.putText(frame, "Blinks: {}".format(TOTAL), (10, 30),
 			cv2.FONT_HERSHEY_DUPLEX, 0.5, (0, 0, 255), 1)
-		#cv2.putText(frame, "EAR: {:.2f}".format(ear), (300, 30),
-		#	cv2.FONT_HERSHEY_DUPLEX, 0.5, (0, 0, 255), 2)
+        cv2.putText(frame, "Last minute blinks: {}".format(LMB), (300, 30),
+			cv2.FONT_HERSHEY_DUPLEX, 0.5, (0, 0, 255), 1)
  
     cv2.imshow("Blinks detection", frame)
  
@@ -101,4 +141,8 @@ while True:
         break
 
 cv2.destroyAllWindows()
-vs.stop()
+vs.stream.release()
+
+print('Average number per minute is: ', (sum(TOTALS)/len(TOTALS)))
+
+#vs.stop()
