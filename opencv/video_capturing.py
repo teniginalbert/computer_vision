@@ -33,9 +33,9 @@ def draw_flow(im, flow, step=16):
     return vis
 
 
-cap = cv2.VideoCapture('2')
+cap = cv2.VideoCapture('3')
 #cap = cv2.VideoCapture('/home/alberttenigin/projects/cv/opencv/sample_5.avi')
-cap.open(2)
+cap.open(3)
 if not (cap.isOpened()):
     print('Could not open video device')
 
