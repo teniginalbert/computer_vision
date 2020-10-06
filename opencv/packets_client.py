@@ -37,10 +37,5 @@ def connect_socket():
     
     return sock
 
-def send_message(message):
-    host, port = read_address()
-
-    s = socket.socket()
-    s.connect((host, port))
-    s.send(message.encode())
-
+def send_message(message, sock):
+    sock.send(message.encode())
